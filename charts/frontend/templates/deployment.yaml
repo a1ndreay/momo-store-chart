@@ -29,8 +29,8 @@ spec:
             cpu: 100m
             memory: 200Mi
           limits:
-            cpu: 400m
-            memory: 400Mi
+            cpu: 500m
+            memory: 500Mi
         env:
           - name: VUE_APP_API_URL
             value: {{ quote .Values.global.frontend.vue_app_api_url }} 
