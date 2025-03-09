@@ -1,1 +1,8 @@
 Please, visit the momo-store at: https://{.Values.global.frontend.fqdn}/ We just opened!
+
+Prometheus available at https://{.Values.global.frontend.fqdn}/prometheus/graph
+###############################################################################
+#               prometheus authentification creds                             #
+#    username:  {{ .Values.global.prometheus.basic_auth_login }}              #
+#    password:  {{ .Values.global.prometheus.basic_auth_password }}           #
+###############################################################################
