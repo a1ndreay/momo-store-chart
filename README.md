@@ -2,7 +2,7 @@
 1. Создайте свой репозиторий в gitlab.praktikum-services.ru, но оставьте его пустым на этом этапе, иначе после загрузки сразу запустятся пайплайны, а нам нужно ещё изменить некоторые значения в values.yaml и создать некоторые секреты в gitlab'e и кубернетисе. Не хотим же мы иметь неработающий пайлайн.
 
 2. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy, добавьте в gitlab следующие секреты:
-"NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/<your-nexus-repo-name>/"
+"NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/your-nexus-repo-name/"
 "NEXUS_HELM_REPO_USERNAME":""
 "NEXUS_HELM_REPO_PASSWORD":""
 
