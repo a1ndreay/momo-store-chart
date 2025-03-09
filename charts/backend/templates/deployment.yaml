@@ -28,6 +28,13 @@ spec:
         image: {{ .Values.global.backend.image }}:{{ .Chart.AppVersion }}
         ports:
         - containerPort: {{ .Values.global.backend.containerPort }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
         livenessProbe:
           httpGet:
             path: /health
@@ -41,6 +48,13 @@ spec:
         image: "nginx:1.26.3-alpine"
         ports:
         - containerPort: {{ .Values.global.backend.containerPort | atoi | add1 }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
         volumeMounts:
         - name: nginx             # The volume this value comes from.
           mountPath: /etc/nginx/conf.d/default.conf
