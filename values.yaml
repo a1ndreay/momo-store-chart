@@ -6,7 +6,7 @@ global:
     port: 5050
   backend:
     image: gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
-    replicas: 2
+    replicas: 1
     containerPort: "8081"
     internal_svc_name: "backend"
     docker_secret_name: "secret-name"
@@ -16,5 +16,7 @@ global:
     containerPort: 8080
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
     docker_secret_name: "secret-name"
-    vue_app_api_url: "https://std-ext-011-46.k8s.praktikum-services.tech:8080/api" #must be http://<fqdn>:<frontend.containerPort>/api
+    vue_app_api_url: "https://std-ext-011-46.k8s.praktikum-services.tech/api" #must be http://<fqdn>:<frontend.containerPort>/api
     node_env: "production"
+  prometheus:
+    service_name: "momo-store-prometheus"

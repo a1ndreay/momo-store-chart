@@ -16,3 +16,9 @@
 	6) создайте ресурс: `kubectl apply -f dockerconfigjson.yaml`
 
 4. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru
+
+5. Установите в кластер prometheus:
+	1) Измените значение fqdn в файле __values.yaml__  (в папке prometheus) оно должно соответсовать значению TODO: мб сделать lookup на host ingress после его установки? И устанавливать prometheus с графаной уже после установки основного чарта с помощью hooks
+
+6. Установите в кластер grafana:
+

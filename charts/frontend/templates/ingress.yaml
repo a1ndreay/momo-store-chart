@@ -27,3 +27,17 @@ spec:
               name: backend-momo-store
               port:
                 number: {{ .Values.global.backend.containerPort }} 
+        - path: /prometheus
+          pathType: Prefix
+          backend:
+            service: 
+              name: {{ quote .Values.global.prometheus.service_name }}
+              port:
+                number: 9090
+        - path: /grafana
+          pathType: Prefix
+          backend:
+            service:
+              name: "my-grafana"
+              port:
+                number: 80

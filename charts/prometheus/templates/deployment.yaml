@@ -6,6 +6,10 @@ metadata:
   labels:
     app: prometheus
     provider: prometheus
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   selector:
     matchLabels:
@@ -41,7 +45,7 @@ spec:
           readOnly: true
         resources:
           requests:
-            cpu: 500m
+            cpu: 100m
             memory: 200Mi
           limits:
             cpu: 1
