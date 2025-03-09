@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  {{ include "frontend.labels" . }}
+spec:
+  replicas: {{ .Values.global.frontend.replicas | int }}
+  revisionHistoryLimit: 12
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 20%
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+  template:
+    metadata:
+  {{ include "frontend.labels" . | indent 4 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.global.frontend.image }}:{{ .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.global.frontend.containerPort }}
+        env:
+          - name: VUE_APP_API_URL
+            value: {{ quote .Values.global.frontend.vue_app_api_url }} 
+          - name: NODE_ENV
+            value: {{ quote .Values.global.frontend.node_env }}
+        livenessProbe:
+          # проверка живучести выполнит запрос HTTP GET
+          httpGet:
+            path: /
+            # порт, к которому должна подключиться проверка
+            port: {{ .Values.global.frontend.containerPort }}
+          # перед исполнением первой проверки подождать 15 секунд, пока стартанёт бэкенд
+          initialDelaySeconds: 15
+          # период выполнения проверки
+          periodSeconds: 30
+          # максимальное время выполнения проверки (по умолчанию 1 раз)
+          timeoutSeconds: 2
+          # сколько раз пробовать попытку, если она провалилась (по умолчанию 1 раз)
+          failureThreshold: 6
+      # чтобы Кубер мог скачивать образы из нашего GitLab Registry
+      imagePullSecrets:
+      - name: {{ .Values.global.frontend.docker_secret_name }}

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  {{ include "backend.labels" . }}
+spec:
+  replicas: {{ .Values.global.backend.replicas | int }}
+  revisionHistoryLimit: 12
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 20%
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Chart.Name }}
+  template:
+    metadata:
+  {{ include "backend.labels" . | indent 4 }}
+      annotations:
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: {{ quote .Values.global.backend.containerPort }}
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.global.backend.image }}:{{ .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.global.backend.containerPort }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.global.backend.containerPort }}
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          timeoutSeconds: 2
+          failureThreshold: 6
+      # выполняет функцию обратного прокси внутри пода, пересылая запросы /api/<request> -> /<request>
+      - name: {{ .Chart.Name }}-sidecar
+        image: "nginx:1.26.3-alpine"
+        ports:
+        - containerPort: {{ .Values.global.backend.containerPort | atoi | add1 }}
+        volumeMounts:
+        - name: nginx             # The volume this value comes from.
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+          readOnly: true
+      volumes:
+      - name: nginx
+        configMap:
+          name: {{ .Chart.Name }}
+          items:
+          - key: "default.conf"
+            path: "default.conf"
+      # чтобы Кубер мог скачивать образы из нашего GitLab Registry
+      imagePullSecrets:
+      - name: {{ .Values.global.backend.docker_secret_name }}

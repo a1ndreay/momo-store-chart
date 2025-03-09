@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  {{ include "frontend.labels" . }}
+spec:
+  ingressClassName: "nginx"
+  tls:
+    - hosts:
+        - {{ quote .Values.global.frontend.fqdn  }}
+  rules:
+    - host: {{ quote .Values.global.frontend.fqdn  }}
+      http:
+        paths:
+        - path: /momo-store
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Chart.Name }}-{{ .Release.Name }}
+              port:
+                number: {{ .Values.global.frontend.containerPort }} 
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend-momo-store
+              port:
+                number: {{ .Values.global.backend.containerPort }} 
