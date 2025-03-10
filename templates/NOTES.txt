@@ -1,16 +1,16 @@
-🌏 Please, visit the momo-store at: https://{.Values.global.frontend.fqdn}/ We just opened!
+🌏 Please, visit the momo-store at: https://{{ .Values.global.frontend.fqdn }}/ We just opened!
 *******************************************************************************
-📊 Grafana available at  https://{.Values.global.frontend.fqdn}/grafana
+📊 Grafana available at  https://{{ .Values.global.frontend.fqdn }}/grafana
         initial username: admin
         initial password: admin
     ❗Additional authorization may be required.
         basic auth username: {{ .Values.global.prometheus.basic_auth_login }}    
         basic auth password: {{ .Values.global.prometheus.basic_auth_password }}  
 *******************************************************************************
-📝  Prometheus available at https://{.Values.global.frontend.fqdn}/prometheus/graph
+📝  Prometheus available at https://{{ .Values.global.frontend.fqdn }}/prometheus/graph
     ❗pay attention to the URL -> /prometheus/graph
 ###############################################################################
-#               prometheus authentification creds                             #
-#    username:  {{ .Values.global.prometheus.basic_auth_login }}              #
-#    password:  {{ .Values.global.prometheus.basic_auth_password }}           #
+#               prometheus authentification creds                             
+#    username:  {{ .Values.global.prometheus.basic_auth_login }}              
+#    password:  {{ .Values.global.prometheus.basic_auth_password }}           
 ###############################################################################
