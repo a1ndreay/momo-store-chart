@@ -97,7 +97,7 @@ spec:
           - key: "dashboardproviders.yaml"
             path: "dashboardproviders.yaml"
       - name: dashboards
-        configmap:
+        configMap:
           name: grafana-dashboards
           defaultMode: 420
       # - name: nginx
