@@ -12,9 +12,9 @@ dependencies:
   - name: frontend
     version: 0.0.1
     repository: "@frontend"
-  - name: prometheus
+  - name: momo-store-prometheus
     version: 0.0.1
     repository: "@prometheus"
-  - name: grafana
+  - name: momo-store-grafana
     version: 0.0.1
     repository: "@grafana"
