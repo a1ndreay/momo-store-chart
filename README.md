@@ -10,8 +10,8 @@
 	1) декодируйте конфиг: 'ewoJImF1dGhzIjogewoJCSJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOnsKCQkJImF1dGgiOiAiUEd4dloybHVPbkJoYzNOM2IzSmtQZz09IgoJCX0KCX0KfQ==' 
 	2) декодируйте строку: 'PGxvZ2luOnBhc3N3b3JkPg==' 
 	3) замените её на ваши значения, закодируйте и подставьте обратно в конфиг 
-	4) закодируйте конфиг и подставьте получившуюся строку за  место '<base64 encoded docker secret>' 
-	5) замените '<secret-name>' на любое имя и не забудьте его так же изменить в файле __values.yaml__: global.backend.docker_secret_name и global.frontend.docker_secret_name 
+	4) закодируйте конфиг и подставьте получившуюся строку за  место 'base64 encoded docker secret' 
+	5) замените 'secret-name' на любое имя __и не забудьте__ его так же изменить в файле __values.yaml__: global.backend.docker_secret_name и global.frontend.docker_secret_name !
 	6) создайте ресурс: `kubectl apply -f dockerconfigjson.yaml`
 
 3. В файле __values.yaml__ измените параметры global.backend.version и global.frontend.version на значения версий из вашего репозитория с кодом.
