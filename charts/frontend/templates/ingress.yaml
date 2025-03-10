@@ -27,10 +27,3 @@ spec:
               name: backend-momo-store
               port:
                 number: {{ .Values.global.backend.containerPort }} 
-        - path: /grafana
-          pathType: Prefix
-          backend:
-            service:
-              name: "my-grafana"
-              port:
-                number: 80

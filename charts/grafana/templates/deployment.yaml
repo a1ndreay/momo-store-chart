@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "7"
+    "helm.sh/hook-delete-policy": before-hook-creation
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      securityContext:
+        fsGroup: 472
+        supplementalGroups:
+          - 0
+      containers:
+      - name: grafana
+        image: grafana/grafana:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3000
+            name: http-grafana
+            protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /robots.txt
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 2
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 3000
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 250m
+            memory: 750Mi
+        volumeMounts:
+        - mountPath: /etc/grafana/grafana.ini
+          name: config
+          subPath: grafana.ini
+          readOnly: true
+      # - name: {{ .Chart.Name }}-sidecar
+      #   image: "nginx:1.26.3-alpine"
+      #   ports:
+      #   - containerPort: {{ .Values.global.backend.containerPort | atoi | add1 }}
+      #   resources:
+      #     requests:
+      #       cpu: 100m
+      #       memory: 200Mi
+      #     limits:
+      #       cpu: 400m
+      #       memory: 400Mi
+      #   volumeMounts:
+      #   - name: nginx             # The volume this value comes from.
+      #     mountPath: /etc/nginx/conf.d/default.conf
+      #     subPath: default.conf
+      #     readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: grafana-conf
+          defaultMode: 420
+          items:
+          - key: "grafana.ini"
+            path: "grafana.ini"
+      # - name: nginx
+      #   configMap:
+      #     name: grafana-conf
+      #     items:
+      #     - key: "default.conf"
+      #       path: "default.conf"

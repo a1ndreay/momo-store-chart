@@ -10,6 +10,8 @@ metadata:
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": before-hook-creation
+# если ingress.alb.yc.io не поддерживает аннотации то буду использовать конфигурацию basic_auth_users встроенную в prometheus: https://github.com/prometheus/prometheus/blob/release-3.2/documentation/examples/web-config.yml
+# пример валидного конфига https://github.com/prometheus/prometheus/blob/release-3.2/config/testdata/conf.good.yml
 data:
   prometheus.yml: |
     global:

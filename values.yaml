@@ -22,3 +22,7 @@ global:
     service_name: "momo-store-prometheus"
     basic_auth_login: "user"
     basic_auth_password: "12345"
+  grafana:
+    service_name: "momo-store-grafana"
+    basic_auth_login: "user"
+    basic_auth_password: "12345"
