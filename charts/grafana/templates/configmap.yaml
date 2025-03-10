@@ -11,9 +11,10 @@ metadata:
     "helm.sh/hook-weight": "6"
     "helm.sh/hook-delete-policy": before-hook-creation
 # базовые параметры конфигурации: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/
-# дополнительный источник https://github.com/grafana/helm-charts/tree/main/charts/grafana
-# подключение дашбордов https://github.com/grafana/helm-charts/blob/d121761fcae0da38d3e880254ddc24da3088e78b/charts/grafana/values.yaml#L812
-# конфиг датасорса сначала проверить на чарте как он монтируется и на конфиг https://github.com/grafana/helm-charts/blob/d121761fcae0da38d3e880254ddc24da3088e78b/charts/grafana/values.yaml#L657
+# дополнительный источник: https://github.com/grafana/helm-charts/tree/main/charts/grafana
+# подключение дашбордов: https://github.com/grafana/helm-charts/blob/d121761fcae0da38d3e880254ddc24da3088e78b/charts/grafana/values.yaml#L812
+# прокси датасорсов с basic_auth: https://grafana.com/docs/grafana/latest/administration/provisioning/#datasources
+# настройки провиженинга графаны: https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
 data:
   grafana.ini: |
     [analytics]
