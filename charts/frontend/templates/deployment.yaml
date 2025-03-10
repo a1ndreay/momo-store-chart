@@ -36,6 +36,12 @@ spec:
             value: {{ quote .Values.global.frontend.vue_app_api_url }} 
           - name: NODE_ENV
             value: {{ quote .Values.global.frontend.node_env }}
+        startupProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.global.frontend.containerPort }}
+          failureThreshold: 6
+          periodSeconds: 10
         livenessProbe:
           # проверка живучести выполнит запрос HTTP GET
           httpGet:
