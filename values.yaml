@@ -26,5 +26,9 @@ global:
     basic_auth_password: "12345"
   grafana:
     service_name: "momo-store-grafana"
+    datasorce_uid: "PBFA97CFB590B2093" # don't change this uid
+    dashboard_provider_name: "default-provider"
+    default_folder_name: "momo-store"
+    default_folder_uid: "DDFA66CFB551B2A31"
     basic_auth_login: "user"
     basic_auth_password: "12345"

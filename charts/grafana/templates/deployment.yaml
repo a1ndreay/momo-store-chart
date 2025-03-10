@@ -63,6 +63,12 @@ spec:
         - name: config
           mountPath: "/etc/grafana/provisioning/datasources/datasources.yaml"
           subPath: "datasources.yaml"
+        - name: config
+          mountPath: "/etc/grafana/provisioning/dashboards/dashboardproviders.yaml"
+          subPath: "dashboardproviders.yaml"
+        - name: dashboards
+          mountPath: "/var/lib/grafana/dashboards/default.json"
+          subPath: "default.json"
       # - name: {{ .Chart.Name }}-sidecar
       #   image: "nginx:1.26.3-alpine"
       #   ports:
@@ -87,6 +93,16 @@ spec:
           items:
           - key: "grafana.ini"
             path: "grafana.ini"
+          - key: "datasources.yaml"
+            path: "datasources.yaml"
+          - key: "dashboardproviders.yaml"
+            path: "dashboardproviders.yaml"
+      - name: dashboards
+        configmap:
+          name: grafana-dashboards
+          items:
+          - key: "default.json"
+            path: "default.json"
       # - name: nginx
       #   configMap:
       #     name: grafana-conf
