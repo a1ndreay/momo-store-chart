@@ -27,6 +27,6 @@ spec:
           pathType: Prefix
           backend:
             service: 
-              name: {{ quote .Values.global.prometheus.service_name }}
+              name: {{ .Values.global.grafana.service_name }}
               port:
                 number: 3000

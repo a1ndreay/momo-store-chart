@@ -1,0 +1,3 @@
+Grafana available at  https://{.Values.global.frontend.fqdn}/grafana
+initial username: admin
+initial password: admin

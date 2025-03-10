@@ -1,5 +1,3 @@
-Please, visit the momo-store at: https://{.Values.global.frontend.fqdn}/ We just opened!
-
 Prometheus available at https://{.Values.global.frontend.fqdn}/prometheus/graph
 ###############################################################################
 #               prometheus authentification creds                             #
