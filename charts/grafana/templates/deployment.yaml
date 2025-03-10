@@ -67,8 +67,7 @@ spec:
           mountPath: "/etc/grafana/provisioning/dashboards/dashboardproviders.yaml"
           subPath: "dashboardproviders.yaml"
         - name: dashboards
-          mountPath: "/var/lib/grafana/dashboards/default.json"
-          subPath: "default.json"
+          mountPath: "/var/lib/grafana/dashboards"
       # - name: {{ .Chart.Name }}-sidecar
       #   image: "nginx:1.26.3-alpine"
       #   ports:
@@ -100,9 +99,7 @@ spec:
       - name: dashboards
         configmap:
           name: grafana-dashboards
-          items:
-          - key: "default.json"
-            path: "default.json"
+          defaultMode: 420
       # - name: nginx
       #   configMap:
       #     name: grafana-conf
