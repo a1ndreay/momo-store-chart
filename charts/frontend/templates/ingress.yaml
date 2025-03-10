@@ -20,6 +20,15 @@ spec:
               name: {{ .Chart.Name }}-{{ .Release.Name }}
               port:
                 number: {{ .Values.global.frontend.containerPort }} 
+        {{ if .Values.global.frontend.permanent_redirect.enabled }}
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Chart.Name }}-{{ .Release.Name }}
+              port:
+                number: {{ .Values.global.frontend.containerPort | add1 }}
+        {{ end }}
         - path: /api
           pathType: Prefix
           backend:

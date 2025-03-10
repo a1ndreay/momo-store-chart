@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  {{ include "frontend.labels" . }}
+
+data:
+  default.conf: | 
+    server {
+        listen {{ .Values.global.frontend.containerPort | add1 }};
+        server_name {{ .Values.global.frontend.fqdn  }};
+        return 301 $scheme://{{ .Values.global.frontend.fqdn  }}/momo-store$request_uri;
+    }

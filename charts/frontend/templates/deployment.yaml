@@ -50,6 +50,31 @@ spec:
           timeoutSeconds: 2
           # сколько раз пробовать попытку, если она провалилась (по умолчанию 1 раз)
           failureThreshold: 6
+      {{ if .Values.global.frontend.permanent_redirect.enabled }}
+      - name: {{ .Chart.Name }}-sidecar
+        image: "nginx:1.26.3-alpine"
+        ports:
+        - containerPort: {{ .Values.global.frontend.containerPort | add1 }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 400m
+            memory: 400Mi
+        volumeMounts:
+        - name: nginx             # The volume this value comes from.
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+          readOnly: true
+      {{ end }}
+      volumes:
+      - name: nginx
+        configMap:
+          name: {{ .Chart.Name }}
+          items:
+          - key: "default.conf"
+            path: "default.conf"
       # чтобы Кубер мог скачивать образы из нашего GitLab Registry
       imagePullSecrets:
       - name: {{ .Values.global.frontend.docker_secret_name }}

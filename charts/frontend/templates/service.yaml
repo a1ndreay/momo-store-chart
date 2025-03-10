@@ -7,8 +7,15 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.global.frontend.containerPort }}
+    - name: default
+      port: {{ .Values.global.frontend.containerPort }}
       protocol: TCP
       targetPort: {{ .Values.global.frontend.containerPort }}
+    {{ if .Values.global.frontend.permanent_redirect.enabled }}
+    - name: set-permanent-redirect
+      port: {{ .Values.global.frontend.containerPort | add1 }}
+      protocol: TCP
+      targetPort: {{ .Values.global.frontend.containerPort | add1 }}
+    {{ end }}
   selector:
     app.kubernetes.io/name: {{ .Chart.Name }}

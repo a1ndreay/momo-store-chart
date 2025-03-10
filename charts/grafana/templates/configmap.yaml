@@ -30,5 +30,19 @@ data:
     [server]
     domain = {{ .Values.global.frontend.fqdn }}
     root_url = /grafana
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      basicAuth: true
+      basicAuthUser: {{ .Values.global.prometheus.basic_auth_login }}
+      isDefault: true
+      name: Prometheus
+      secureJsonData:
+        basicAuthPassword: {{ .Values,global.prometheus.basic_auth_password }}
+      type: prometheus
+      url: https://{{ .Values.global.frontend.fqdn }}/prometheus
+    deleteDatasources:
+    - name: Prometheus
 
 
