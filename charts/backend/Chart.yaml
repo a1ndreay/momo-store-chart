@@ -1,6 +1,6 @@
 apiVersion: v2
 type: application
-AppVersion: "1.0.1897131"
+AppVersion: "{{ .Values.global.backend.version }}"
 description: A Helm chart for Momo Store backend
 name: backend
 version: 0.0.1
