@@ -13,7 +13,9 @@
 	5) замените '<secret-name>' на любое имя и не забудьте его так же изменить в файле __values.yaml__: global.backend.docker_secret_name и global.frontend.docker_secret_name 
 	6) создайте ресурс: `kubectl apply -f dockerconfigjson.yaml`
 
-3. Установите чарт и следуйте дальнейшим инструкциям: `helm install momo-store ./charts -n momo-namespace --atomic`
+3. В файле __values.yaml__ измените параметры global.backend.version и global.frontend.version на значения версий из вашего репозитория с кодом.
+
+4. Установите чарт и следуйте дальнейшим инструкциям: `helm install momo-store ./charts -n momo-namespace --atomic`
 	Важно! устанваливайте чарт в новый namespace. Сервисы для сбора метрик prometheus и grafana устанавливаются с помощью хуков, чтобы быть логически независимыми развёртываниями от основного чарта. При удалении чарта, эти ресурсы не удалятся вместе с основным чартом, их придётся удалять вручную!
 
 После этих шагов фронтенд должен отвечать через браузер, grafana должна быть так же сразу доступна, никакой дополнительной конфигурации не требуется.
