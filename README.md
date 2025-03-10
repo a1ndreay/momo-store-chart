@@ -1,4 +1,26 @@
 # Helm chart for momo-store
+## Создание пайплайна для сборки и хранения чартов
+
+1. Склонируйте данный репозиторий: git clone  https://gitlab.praktikum-services.ru/std-ext-011-46/momo-store-chart.git
+
+2. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy.
+
+3. Добавьте в gitlab следующие секреты:
+"NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/your-nexus-repo-name/",
+"NEXUS_HELM_REPO_USERNAME":"",
+"NEXUS_HELM_REPO_PASSWORD":"",
+"KUBECONFIG_USER_TOKEN":"",
+"KUBECONFIG_CONTEXT_NAMESPACE":"",
+"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS":"",
+"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA":"",
+"DOCKER_REGISTRY_URL":"gitlab.praktikum-services.ru",
+"DOCKER_REGISTRY_PORT":"5050",
+"DOCKER_REGISTRY_USERNAME":"",
+"DOCKER_REGISTRY_PASSWORD":"",
+
+
+3. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru
+
 ## Установка чарта в своём кластере:
 > [!NOTE]  
 > Перед установкой чарта установите необходимые утилиты: __helm__, __kubectl__
@@ -21,13 +43,5 @@
 > Устанваливайте чарт в новый namespace. Сервисы для сбора метрик prometheus и grafana устанавливаются с помощью хуков, чтобы быть логически независимыми развёртываниями от основного чарта. При удалении чарта, эти ресурсы не удалятся вместе с основным чартом, их придётся удалять вручную!
 
 После этих шагов фронтенд должен отвечать через браузер, grafana должна быть так же сразу доступна, никакой дополнительной конфигурации не требуется.
-
-## Создание пайплайна для сборки и хранения чартов
-1. Создайте свой репозиторий в gitlab.praktikum-services.ru, но оставьте его пустым на этом этапе, иначе после загрузки сразу запустятся пайплайны, а нам нужно ещё изменить некоторые значения в values.yaml и создать некоторые секреты в gitlab'e и кубернетисе. Не хотим же мы иметь неработающий пайлайн.
-2. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy, добавьте в gitlab следующие секреты:
-"NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/your-nexus-repo-name/"
-"NEXUS_HELM_REPO_USERNAME":""
-"NEXUS_HELM_REPO_PASSWORD":""
-3. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru
 
 

@@ -1,9 +1,9 @@
 global:
   imageCredentials:
-    registry: gitlab.praktikum-services.ru
-    username: std-ext-011-46
-    password: djB67L1h
-    port: 5050
+    registry: 
+    username: 
+    password: 
+    port: 
   backend:
     image: gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
     version: '1.0.1897131'
