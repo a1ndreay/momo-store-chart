@@ -1,4 +1,5 @@
 🌏 Please, visit the momo-store at: https://{{ .Values.global.frontend.fqdn }}/ We just opened!
+    ⚠️ this url may return the error: '503 Service Temporarily Unavailable' within 30 seconds after installing the chart.
 *******************************************************************************
 📊 Grafana available at  https://{{ .Values.global.frontend.fqdn }}/grafana
         initial username: admin

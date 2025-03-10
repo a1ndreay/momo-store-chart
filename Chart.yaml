@@ -12,3 +12,9 @@ dependencies:
   - name: frontend
     version: 0.0.1
     repository: "@frontend"
+  - name: prometheus
+    version: 0.0.1
+    repository: "@prometheus"
+  - name: grafana
+    version: 0.0.1
+    repository: "@grafana"
