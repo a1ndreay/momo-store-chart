@@ -9,8 +9,8 @@ release_chart:
     - echo ${CI_API_V4_URL}
     - echo ${CI_PROJECT_ID}
     - apk add curl
-    - helm lint .
-    - helm package .
+    - helm lint . -f values.yaml
+    - helm package . -f values.yaml
     - curl -u ${NEXUS_HELM_REPO_USERNAME}:${NEXUS_HELM_REPO_PASSWORD} ${NEXUS_HELM_REPO} --upload-file ./*.tgz
 
 deploy:
