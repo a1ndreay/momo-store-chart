@@ -15,7 +15,7 @@
 {{- define "frontend.labels" -}}
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ .Values.global.frontend.version }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     helm.sh/release-namespace: {{ .Release.Namespace }}

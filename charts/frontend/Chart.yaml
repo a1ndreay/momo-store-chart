@@ -1,6 +1,5 @@
 apiVersion: v2
 type: application
-AppVersion: {{ .Values.global.frontend.version }}
 description: A Helm chart for Momo Store frontend
 name: frontend
 version: 0.0.1
