@@ -18,7 +18,7 @@ deploy:
   image: alpine/helm:3
   when: manual
   variables:
-    backend_target_version: "lates"
+    backend_target_version: "latest"
     frontend_target_version: "latest"
     environment: "default"
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
