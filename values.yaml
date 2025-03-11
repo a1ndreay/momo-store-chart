@@ -1,9 +1,16 @@
 global:
   imageCredentials:
-    registry: 
-    username: 
-    password: 
-    port: 
+    registry: ""
+    username: ""
+    password: ""
+    port: ""
+  alb:
+    subnets:
+    security_groups:
+    external_ipv4_address:
+    group_name:
+  cm:
+    cert_id: 
   backend:
     image: gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
     version: '1.0.1897131'
