@@ -32,7 +32,7 @@ deploy:
   script:
     - helm repo add nexus $NEXUS_HELM_REPO --username $NEXUS_HELM_REPO_USERNAME --password $NEXUS_HELM_REPO_PASSWORD
     - helm repo update
-    - echo ${helm_release_name} nexus/${helm_chart_name}
+    - echo ${helm_release_name} nexus/${helm_chart_name} ${backend_target_version} ${frontend_target_version}
     - cat ~/.kube/config
     - |
       helm upgrade ${helm_release_name} nexus/${helm_chart_name} --set global.backend.version=${backend_target_version} \
