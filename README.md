@@ -18,10 +18,12 @@
 "DOCKER_REGISTRY_USERNAME":"",
 "DOCKER_REGISTRY_PASSWORD":"",
 "BACKEND_REGISTRY_URL":"",
-"FRONTEND_REGISTRY_URL":""
+"FRONTEND_REGISTRY_URL":"",
+"APP_INSTALL_ENVIRONMENT":""
 > [!Warning]
 > В качестве DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD должны быть ваш логин и пароль от gitab'a (мы не будем использовать deploy токены и т.п.)
 > В качестве BACKEND_REGISTRY_URL/FRONTEND_REGISTRY_URL должна быть строка вида: "gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/frontend"
+> Переменная APP_INSTALL_ENVIRONMENT указывает на имя неймспейса в котором установится чарт, может совпадать со значением KUBECONFIG_CONTEXT_NAMESPACE. Предпочтительнее указать разные значения, так как в чарте есть ресурсы, создаваемые с помощью хуков. Такие ресурсы не следуют за жизненным циклом основного чарта, в том числе не удаляются автоматически после его удаления.
 
 4. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru. Сборка чарта начнётся автоматически. Необходимые для развёртывания чувствительные значения подставляются на шаге деплоя, он ручной, никакие переменные в него вводить не надо, все необходимые переменные он подхватит из секретов gitlab'a.
 

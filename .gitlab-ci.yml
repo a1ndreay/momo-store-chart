@@ -20,7 +20,6 @@ deploy:
   variables:
     backend_target_version: "latest"
     frontend_target_version: "latest"
-    environment: "default"
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
     helm_release_name: "momo-store"
     helm_chart_name: "momo-store"
@@ -34,17 +33,16 @@ deploy:
     - helm repo add nexus $NEXUS_HELM_REPO --username $NEXUS_HELM_REPO_USERNAME --password $NEXUS_HELM_REPO_PASSWORD
     - helm repo update
     - echo ${helm_release_name} nexus/${helm_chart_name}
-    - helm upgrade ${helm_release_name} nexus/${helm_chart_name} --set global.backend.version=${backend_target_version}
-                                                  --set global.frontend.version=${frontend_target_version}
+    - helm upgrade ${helm_release_name} nexus/${helm_chart_name} --set global.backend.version=${backend_target_version} \
+                                                  --set global.frontend.version=${frontend_target_version} \
                                                   --set global.imageCredentials.registry=${DOCKER_REGISTRY_URL} \
                                                   --set global.imageCredentials.username=${DOCKER_REGISTRY_USERNAME} \
                                                   --set global.imageCredentials.password=${DOCKER_REGISTRY_PASSWORD} \
                                                   --set global.imageCredentials.port=${DOCKER_REGISTRY_PORT} \
-                                                  --set global.backend.image=${BACKEND_REGISTRY_URL}
-                                                  --set global.frontend.image=${FRONTEND_REGISTRY_URL}
-                                                  --set environment=${environment} \
+                                                  --set global.backend.image=${BACKEND_REGISTRY_URL} \
+                                                  --set global.frontend.image=${FRONTEND_REGISTRY_URL} \
                                                   --set global.frontend.fqdn=${fqdn} \
-                                                  --atomic --install --timeout 10m --debug 
+                                                  --atomic --install --timeout 10m --debug --namespace=${APP_INSTALL_ENVIRONMENT} 
   after_script:
     - rm ${HOME}/.kube/config ||true
 
