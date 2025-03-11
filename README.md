@@ -5,7 +5,7 @@
 
 2. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy.
 
-3. Добавьте в gitlab следующие секреты:
+3. Обязательно добавьте в gitlab все следующие секреты:
 "NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/your-nexus-repo-name/",
 "NEXUS_HELM_REPO_USERNAME":"",
 "NEXUS_HELM_REPO_PASSWORD":"",
@@ -17,9 +17,13 @@
 "DOCKER_REGISTRY_PORT":"5050",
 "DOCKER_REGISTRY_USERNAME":"",
 "DOCKER_REGISTRY_PASSWORD":"",
+"BACKEND_REGISTRY_URL":"",
+"FRONTEND_REGISTRY_URL":""
+> [!Warning]
+> В качестве DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD должны быть ваш логин и пароль от gitab'a (мы не будем использовать deploy токены и т.п.)
+> В качестве BACKEND_REGISTRY_URL/FRONTEND_REGISTRY_URL должна быть строка вида: "gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/frontend"
 
-
-3. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru
+4. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru. Сборка чарта начнётся автоматически. Необходимые для развёртывания чувствительные значения подставляются на шаге деплоя, он ручной, никакие переменные в него вводить не надо, все необходимые переменные он подхватит из секретов gitlab'a.
 
 ## Установка чарта в своём кластере:
 > [!NOTE]  

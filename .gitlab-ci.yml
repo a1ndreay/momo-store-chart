@@ -13,7 +13,6 @@ release_chart:
     - helm package .
     - curl -u ${NEXUS_HELM_REPO_USERNAME}:${NEXUS_HELM_REPO_PASSWORD} ${NEXUS_HELM_REPO} --upload-file ./*.tgz
 
-#TODO сделать lookup на секрет с кредами от docker registry чтобы он создавался только если до этого не был установлен
 deploy:
   stage: deploy
   image: alpine/helm:3
@@ -25,6 +24,8 @@ deploy:
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
     helm_release_name: "momo-store"
     helm_chart_name: "momo-store"
+    BACKEND_REGISTRY_URL: ""
+    FRONTEND_REGISTRY_URL: ""
   before_script:
     - apk update && apk add envsubst                                     # Установить wget и envsubst ( пакет gettext-base )          
     - mkdir ${HOME}/.kube && envsubst < .kube/config.tmpl > ${HOME}/.kube/config                                      # Создаём kubeconfig из шаблона
@@ -32,15 +33,17 @@ deploy:
   script:
     - helm repo add nexus $NEXUS_HELM_REPO --username $NEXUS_HELM_REPO_USERNAME --password $NEXUS_HELM_REPO_PASSWORD
     - helm repo update
-    - helm upgrade --install ${helm_release_name} --set global.backend.version=${backend_target_version}
+    - helm upgrade ${helm_release_name} nexus/${helm_chart_name} --set global.backend.version=${backend_target_version}
                                                   --set global.frontend.version=${frontend_target_version}
                                                   --set global.imageCredentials.registry=${DOCKER_REGISTRY_URL} \
                                                   --set global.imageCredentials.username=${DOCKER_REGISTRY_USERNAME} \
                                                   --set global.imageCredentials.password=${DOCKER_REGISTRY_PASSWORD} \
                                                   --set global.imageCredentials.port=${DOCKER_REGISTRY_PORT} \
+                                                  --set global.backend.image=${BACKEND_REGISTRY_URL}
+                                                  --set global.frontend.image=${FRONTEND_REGISTRY_URL}
                                                   --set environment=${environment} \
                                                   --set global.frontend.fqdn=${fqdn} \
-                                                  --atomic --timeout 5m nexus/${helm_chart_name}
+                                                  --atomic --install --timeout 5m 
   after_script:
     - rm ${HOME}/.kube/config ||true
 

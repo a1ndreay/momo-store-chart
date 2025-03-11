@@ -33,7 +33,7 @@ spec:
             memory: 500Mi
         env:
           - name: VUE_APP_API_URL
-            value: {{ quote .Values.global.frontend.vue_app_api_url }} 
+            value: "{{ .Values.global.frontend.fqdn }}{{ .Values.global.frontend.vue_app_api_url }}"
           - name: NODE_ENV
             value: {{ quote .Values.global.frontend.node_env }}
         startupProbe:
