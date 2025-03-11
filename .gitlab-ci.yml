@@ -11,7 +11,7 @@ release_chart:
     - apk add curl
     - cat values.yaml
     - helm lint . -f values.yaml
-    - helm package . -f values.yaml
+    - helm package .
     - curl -u ${NEXUS_HELM_REPO_USERNAME}:${NEXUS_HELM_REPO_PASSWORD} ${NEXUS_HELM_REPO} --upload-file ./*.tgz
 
 deploy:
