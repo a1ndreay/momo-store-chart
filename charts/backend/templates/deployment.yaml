@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: {{ .Values.global.backend.image }}:{{ .Chart.AppVersion }}
+        image: {{ .Values.global.backend.image }}:{{.Values.global.backend.version}}
         ports:
         - containerPort: {{ .Values.global.backend.containerPort }}
         resources:

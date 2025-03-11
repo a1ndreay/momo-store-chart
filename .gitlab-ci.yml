@@ -24,8 +24,6 @@ deploy:
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
     helm_release_name: "momo-store"
     helm_chart_name: "momo-store"
-    BACKEND_REGISTRY_URL: ""
-    FRONTEND_REGISTRY_URL: ""
   before_script:
     - apk update && apk add envsubst                                     # Установить wget и envsubst ( пакет gettext-base )          
     - mkdir ${HOME}/.kube && envsubst < .kube/config.tmpl > ${HOME}/.kube/config                                      # Создаём kubeconfig из шаблона
