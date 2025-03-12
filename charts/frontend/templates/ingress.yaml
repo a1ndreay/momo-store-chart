@@ -4,6 +4,7 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
   {{ include "frontend.labels" . }}
+  {{ include "frontend.alb.annotations" }}
 spec:
   ingressClassName: "nginx"
   tls:

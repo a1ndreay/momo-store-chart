@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-grafana
   namespace: {{ .Release.Namespace }}
+  {{ include "grafana.alb.annotations" }}
   labels:
     app: prometheus
   annotations:
