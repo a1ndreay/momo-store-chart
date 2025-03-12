@@ -12,15 +12,15 @@ global:
   cm:
     cert_id: 
   backend:
-    image: gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
-    version: '1.0.1897131'
+    image: gitlab.praktikum-services.ru:5050/
+    version: 'latest'
     replicas: 1
     containerPort: "8081"
     internal_svc_name: "backend"
     docker_secret_name: "secret-name"
   frontend:
-    image: gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/frontend
-    version: '1.0.1897130'
+    image: gitlab.praktikum-services.ru:5050/
+    version: 'latest'
     replicas: 1
     containerPort: 8080
     fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
