@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-prometheus
   namespace: {{ .Release.Namespace }}
-  {{ include "prometheus.alb.annotations" }}
+  {{ include "prometheus.alb.annotations" . }}
   labels:
     app: prometheus
   annotations:
