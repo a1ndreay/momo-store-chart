@@ -36,24 +36,26 @@ kubectl get namespace
 ```
 
 3. После создания репозитория, нужно обязательно добавить в gitlab все следующие секреты:
-"NEXUS_HELM_REPO": "https://nexus.praktikum-services.tech/repository/your-nexus-repo-name/",
-"NEXUS_HELM_REPO_USERNAME":"",
-"NEXUS_HELM_REPO_PASSWORD":"",
-"KUBECONFIG_USER_TOKEN":"", <--`echo $SA_TOKEN`-->
-"KUBECONFIG_CONTEXT_NAMESPACE":"default",
-"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS":"https://<ALB_EXT_IPV4_ADDR>",
-"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA":"", <--`cat $CA_PATH`-->
-"DOCKER_REGISTRY_URL":"gitlab.praktikum-services.ru:5050", <---Port required!--->
-"DOCKER_REGISTRY_USERNAME":"", <--username from gitlab-->
-"DOCKER_REGISTRY_PASSWORD":"", <--password from gitlab-->
-"BACKEND_REGISTRY_URL":"", <--на этом шаге не добавляем-->
-"FRONTEND_REGISTRY_URL":"", <--на этом шаге не добавляем-->
-"APP_INSTALL_ENVIRONMENT":"momo-store"
-"ALB_SUBNETS":"<ALB_SUBNETS>",
-"ALB_SEC_GROUP":"<ALB_SEC_GROUP>",
-"ALB_EXT_IPV4_ADDR":"<ALB_EXT_IPV4_ADDR>",
-"ALB_GROUP_NAME":"<ALB_GROUP_NAME>",
-"CM_CERT_ID":"<le_cert_id>"
+|Ключ|Значение|Пояснение|
+|--- |---     |---      |
+|"NEXUS_HELM_REPO"|"https://nexus.praktikum-services.tech/repository/<your-nexus-repo-name>/"|за место <your-nexus-repo-name> подставьте имя nexus-репозитория |
+|"NEXUS_HELM_REPO_USERNAME"||Ваш логин от nexus|
+|"NEXUS_HELM_REPO_PASSWORD"||Ваш пароль от nexus|
+|"KUBECONFIG_USER_TOKEN"||получите, используя `echo $SA_TOKEN`|
+|"KUBECONFIG_CONTEXT_NAMESPACE"|"default"||
+|"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS"|"https://<ALB_EXT_IPV4_ADDR>"| замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
+|"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"||получите, используя `cat $CA_PATH`|
+|"DOCKER_REGISTRY_URL"|"gitlab.praktikum-services.ru:5050"|указание порта очень важно! |
+|"DOCKER_REGISTRY_USERNAME"||Ваш логин от Gitlab |
+|"DOCKER_REGISTRY_PASSWORD"||Ваш пароль от Gitlab|
+|"BACKEND_REGISTRY_URL"||Пока пропускаем, добавим на следующем этапе |
+|"FRONTEND_REGISTRY_URL"||Пока пропускаем, добавим на следующем этапе |
+|"APP_INSTALL_ENVIRONMENT"|"momo-store"|Namespace для установки в кластере |
+|"ALB_SUBNETS"|<ALB_SUBNETS>|замените <ALB_SUBNETS> на значение полученное при создании кластера |
+|"ALB_SEC_GROUP"|<ALB_SEC_GROUP>|замените <ALB_SEC_GROUP> на значение полученное при создании кластера |
+|"ALB_EXT_IPV4_ADDR"|<ALB_EXT_IPV4_ADDR>|замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
+|"ALB_GROUP_NAME"|<ALB_GROUP_NAME>|замените <ALB_GROUP_NAME> на значение полученное при создании кластера |
+|"CM_CERT_ID"|<le_cert_id>|замените <le_cert_id> на значение полученное при создании кластера |
 
 > [!warning]
 > В качестве DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD должны быть ваш логин и пароль от gitab'a (мы не будем использовать deploy токены и т.п.)
@@ -69,6 +71,9 @@ kubectl get namespace
 5. Перейдите в UI Gitlab'a и в запущенном пайплайне найдите задачу с именем "release_chart" (stage release)., найдите в самом начале её логов значения: 'CI_API_V4_URL' и 'CI_PROJECT_ID'., вот так они могут выглядеть:
 ![alt text](image.png)
 Запишите где-нибудь значния этих переменных, они понадобятся на следующем этапе.
+
+6. 🏁 На этом этапе мы закончили настройку пайпалайна с чартами, не забудьте записать значения переменных `CI_API_V4_URL` и `CI_PROJECT_ID`. Теперь следуйте инструкциям по созданию пайплайна сборки приложения в репозитории https://gitlab.praktikum-services.ru/std-ext-011-46/momo-store/-/tree/dev?ref_type=heads (ветка dev)
+
 
 
 
