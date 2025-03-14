@@ -60,7 +60,7 @@ kubectl --namespace ns apply -f secret-store.yaml
 |"KUBECONFIG_USER_TOKEN"||получите, используя `echo $SA_TOKEN `|
 |"KUBECONFIG_CONTEXT_NAMESPACE"|"default"||
 |"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS"|"https://<ALB_EXT_IPV4_ADDR>"| замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
-|"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"||получите, используя `base64 -w0 ~/.kube/ca.pem`|
+|"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"|| получите, используя `base64 -w0 ~/.kube/ca.pem` обратите внимание, что корневой сертификат добавляется в кодировке base64 |
 |"DOCKER_REGISTRY_URL"|"gitlab.praktikum-services.ru:5050"|указание порта очень важно! |
 |"DOCKER_REGISTRY_USERNAME"||Ваш логин от Gitlab |
 |"DOCKER_REGISTRY_PASSWORD"||Ваш пароль от Gitlab|

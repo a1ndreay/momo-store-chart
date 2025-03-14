@@ -28,11 +28,10 @@ deploy:
     - apk update && apk add envsubst  && apk add kubectl && apk add curl                                   # Установить wget и envsubst ( пакет gettext-base )   
     - mkdir ${HOME}/.kube
     - echo "${KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA}" | base64 -d > ${HOME}/.kube/ca.pem
-    - kubectl config set-cluster sa-test2 --certificate-authority=${HOME}/.kube/ca.pem --embed-certs --server=https://${KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS}  
+    - kubectl config set-cluster sa-test2 --certificate-authority=${HOME}/.kube/ca.pem --embed-certs --server=${KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS}  
     - kubectl config set-credentials admin-user --token=${KUBECONFIG_USER_TOKEN}
     - kubectl config set-context default --cluster=sa-test2 --user=admin-user
     - kubectl config use-context default
-    - cat ${HOME}/.kube/ca.pem 
     - curl https://ifconfig.co/json
     - kubectl get namespace    
     # - mkdir ${HOME}/.kube && envsubst < .kube/config.tmpl > ${HOME}/.kube/config                                      # Создаём kubeconfig из шаблона
