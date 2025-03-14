@@ -1,9 +1,9 @@
 # Helm chart for momo-store
 ## Создание пайплайна для сборки и хранения чартов
 
-На предыдущем этапе вы создалии необходимую инфраструктуру, надеюсь вы не забыли записать себе значения `ALB_EXT_IPV4_ADDR`, `ALB_GROUP_NAME`, `ALB_SEC_GROUP`, `ALB_SUBNETS` и `le_cert_id`, а так же не успели потерять супер важные файлы `~/.kube/config` и `~/.kube/ca.pem`. На этом этапе мы создадим пайплайн для создания чартов и развертывания на кластере (CD).
+На предыдущем этапе вы создалии необходимую инфраструктуру, надеюсь вы не забыли записать себе значения `ALB_EXT_IPV4_ADDR`, `ALB_GROUP_NAME`, `ALB_SEC_GROUP`, `ALB_SUBNETS` и `le_cert_id`, а так же не успели потерять супер важные файлы `~/.kube/config`. На этом этапе мы создадим пайплайн для создания чартов и развертывания на кластере (CD).
 
-⚠️ Для выполнения некоторых действий нам потребуется утилита kubectl.
+⚠️ Для выполнения некоторых действий нам потребуется утилита __kubectl__ и __helm__.
 
 1. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy., он потребуется для хранения чартов. Не стоит волноваться, супер секьюрные значения не будут подставляться в чарт на этапе публикации в репозиторий. 
 
@@ -35,6 +35,22 @@ kubectl config use-context default
 kubectl get namespace
 ```
 
+3. Теперь необходимо самостоятельно установить External Secrets Operator:
+```powershell
+helm repo add external-secrets https://charts.external-secrets.io
+# "external-secrets" has been added to your repositories
+
+helm install external-secrets external-secrets/external-secrets --namespace external-secrets --create-namespace
+
+kubectl create namespace ns
+
+$ESO_CA_PATH = $(Resolve-Path ~/.kube/authorized-key.json).Path
+
+kubectl --namespace ns create secret generic yc-auth --from-file=authorized-key=$ESO_CA_PATH
+
+kubectl --namespace ns apply -f secret-store.yaml
+```
+
 3. После создания репозитория, нужно обязательно добавить в gitlab все следующие секреты:
 |Ключ|Значение|Пояснение|
 |--- |---     |---      |
@@ -51,10 +67,6 @@ kubectl get namespace
 |"BACKEND_REGISTRY_URL"||Пока пропускаем, добавим на следующем этапе |
 |"FRONTEND_REGISTRY_URL"||Пока пропускаем, добавим на следующем этапе |
 |"APP_INSTALL_ENVIRONMENT"|"momo-store"|Namespace для установки в кластере |
-|"ALB_SUBNETS"|<ALB_SUBNETS>|замените <ALB_SUBNETS> на значение полученное при создании кластера |
-|"ALB_SEC_GROUP"|<ALB_SEC_GROUP>|замените <ALB_SEC_GROUP> на значение полученное при создании кластера |
-|"ALB_EXT_IPV4_ADDR"|<ALB_EXT_IPV4_ADDR>|замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
-|"ALB_GROUP_NAME"|<ALB_GROUP_NAME>|замените <ALB_GROUP_NAME> на значение полученное при создании кластера |
 |"CM_CERT_ID"|<le_cert_id>|замените <le_cert_id> на значение полученное при создании кластера |
 
 > [!warning]
