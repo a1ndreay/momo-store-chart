@@ -57,10 +57,10 @@ kubectl --namespace ns apply -f secret-store.yaml
 |"NEXUS_HELM_REPO"|"https://nexus.praktikum-services.tech/repository/<your-nexus-repo-name>/"|за место <your-nexus-repo-name> подставьте имя nexus-репозитория |
 |"NEXUS_HELM_REPO_USERNAME"||Ваш логин от nexus|
 |"NEXUS_HELM_REPO_PASSWORD"||Ваш пароль от nexus|
-|"KUBECONFIG_USER_TOKEN"||получите, используя `echo $SA_TOKEN`|
+|"KUBECONFIG_USER_TOKEN"||получите, используя `echo $SA_TOKEN `|
 |"KUBECONFIG_CONTEXT_NAMESPACE"|"default"||
 |"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS"|"https://<ALB_EXT_IPV4_ADDR>"| замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
-|"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"||получите, используя `cat $CA_PATH`|
+|"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"||получите, используя `base64 -w0 ~/.kube/ca.pem`|
 |"DOCKER_REGISTRY_URL"|"gitlab.praktikum-services.ru:5050"|указание порта очень важно! |
 |"DOCKER_REGISTRY_USERNAME"||Ваш логин от Gitlab |
 |"DOCKER_REGISTRY_PASSWORD"||Ваш пароль от Gitlab|

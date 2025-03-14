@@ -27,7 +27,7 @@ deploy:
   before_script:
     - apk update && apk add envsubst  && apk add kubectl && apk add curl                                   # Установить wget и envsubst ( пакет gettext-base )   
     - mkdir ${HOME}/.kube
-    - echo -n ${KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA} > ${HOME}/.kube/ca.pem 
+    - echo "${KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA}" | base64 -d > ${HOME}/.kube/ca.pem
     - kubectl config set-cluster sa-test2 --certificate-authority=${HOME}/.kube/ca.pem --embed-certs --server=https://${KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS}  
     - kubectl config set-credentials admin-user --token=${KUBECONFIG_USER_TOKEN}
     - kubectl config set-context default --cluster=sa-test2 --user=admin-user
