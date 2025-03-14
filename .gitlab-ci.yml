@@ -25,8 +25,15 @@ deploy:
     helm_release_name: "momo-store"
     helm_chart_name: "momo-store"
   before_script:
-    - apk update && apk add envsubst                                     # Установить wget и envsubst ( пакет gettext-base )          
-    - mkdir ${HOME}/.kube && envsubst < .kube/config.tmpl > ${HOME}/.kube/config                                      # Создаём kubeconfig из шаблона
+    - apk update && apk add envsubst  && apk add kubectl                                   # Установить wget и envsubst ( пакет gettext-base )   
+    - mkdir ${HOME}/.kube
+    - echo ${KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA} > ${HOME}/.kube/ca.pem 
+    - kubectl config set-cluster sa-test2 --certificate-authority=${HOME}/.kube/ca.pem --embed-certs --server=https://${KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS}  
+    - kubectl config set-credentials admin-user --token=${KUBECONFIG_USER_TOKEN}
+    - kubectl config set-context default --cluster=sa-test2 --user=admin-user
+    - kubectl config use-context default
+    - kubectl get namespace    
+    # - mkdir ${HOME}/.kube && envsubst < .kube/config.tmpl > ${HOME}/.kube/config                                      # Создаём kubeconfig из шаблона
     - export KUBECONFIG="${KUBECONFIG}:${HOME}/.kube/config"    
   script:
     - helm repo add nexus $NEXUS_HELM_REPO --username $NEXUS_HELM_REPO_USERNAME --password $NEXUS_HELM_REPO_PASSWORD
