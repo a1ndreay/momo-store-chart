@@ -4,6 +4,9 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
   {{ include "frontend.labels" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/hsts: "false"
+    nginx.ingress.kubernetes.io/hsts-max-age: "0"
   {{ include "frontend.alb.annotations" . }}
 spec:
   ingressClassName: "nginx"

@@ -96,7 +96,7 @@ helm repo update
 helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.extraArgs.default-ssl-certificate="ns/k8s-secret"
 ```
 
-5. В Cloud Console разместите A-запись в вашей DNS-зоне анонсирующую внешний IP-адресс созданного балансировщика
+5. В Cloud Console разместите A-запись в вашей DNS-зоне анонсирующую внешний IP-адресс созданного балансировщика #нужно автоматизировать, делегировав создание балансировщика в terraform
 
 3. После создания репозитория, нужно обязательно добавить в gitlab все следующие секреты:
 |Ключ|Значение|Пояснение|
