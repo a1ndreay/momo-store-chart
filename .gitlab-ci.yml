@@ -21,7 +21,7 @@ deploy:
   variables:
     backend_target_version: "latest"
     frontend_target_version: "latest"
-    fqdn: "std-ext-011-46.k8s.praktikum-services.tech"
+    fqdn: "dn0j3gz6uqdsusj.ru"
     helm_release_name: "momo-store"
     helm_chart_name: "momo-store"
   before_script:
