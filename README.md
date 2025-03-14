@@ -49,7 +49,54 @@ $ESO_CA_PATH = $(Resolve-Path ~/.kube/authorized-key.json).Path
 kubectl --namespace ns create secret generic yc-auth --from-file=authorized-key=$ESO_CA_PATH
 
 kubectl --namespace ns apply -f secret-store.yaml
+
+kubectl --namespace ns get SecretStore secret-store -o jsonpath='{.status}'  # статус должен быть valid.
 ```
+
+На следующем шаге потребуется идентификатор сертификата let's encrypt, мы его получали при создании кластера ('le_cert_id'). На этом шаге не возникнет ошибки, если на предыдущем SecretStore заспавнил своего клиента и авторизованный ключ eso-sa имел правильный формат.
+
+4. Создайте external-secret (нужен для синхронизации сертификата из certificate-manager):
+```bash
+kubectl --namespace ns apply -f - <<< '
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: external-secret
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: secret-store
+    kind: SecretStore
+  target:
+    name: k8s-secret
+    template:
+      type: kubernetes.io/tls
+  data:
+  - secretKey: tls.crt
+    remoteRef:
+      key: <le_cert_id>
+      property: chain
+  - secretKey: tls.key
+    remoteRef:
+      key: <le_cert_id>
+      property: privateKey'
+```
+
+5. Проверьте что секрет был синхронизован ( может появится не сразу! ):
+```bash
+kubectl -n ns get secret k8s-secret
+```
+
+4. Установите Ingress-nginx контроллер:
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.extraArgs.default-ssl-certificate="ns/k8s-secret"
+```
+
+5. В Cloud Console разместите A-запись в вашей DNS-зоне анонсирующую внешний IP-адресс созданного балансировщика
 
 3. После создания репозитория, нужно обязательно добавить в gitlab все следующие секреты:
 |Ключ|Значение|Пояснение|
