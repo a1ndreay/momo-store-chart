@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:
         - {{ quote .Values.global.frontend.fqdn  }}
-      secretName: yc-certmgr-cert-id-{{ .Values.global.cm.cert_id }}
+      secretName: k8s-secret
   rules:
     - host: {{ quote .Values.global.frontend.fqdn  }}
       http:

@@ -20,6 +20,7 @@ spec:
   tls:
     - hosts:
         - {{ quote .Values.global.frontend.fqdn }}
+      secretName: k8s-secret
   rules:
     - host: {{ quote .Values.global.frontend.fqdn }}
       http:
