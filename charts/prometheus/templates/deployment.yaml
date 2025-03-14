@@ -25,6 +25,7 @@ spec:
         co.elastic.logs/timezone: Europe/Moscow
         co.elastic.logs/exclude_lines: skipping duplicate scrape target with identical labels;
     spec:
+      serviceAccountName: prometheus-agent
       terminationGracePeriodSeconds: 90
       restartPolicy: Always
       containers:
