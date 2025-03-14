@@ -55,7 +55,7 @@ deploy:
        --set global.alb.external_ipv4_address=${ALB_EXT_IPV4_ADDR} \
        --set global.alb.group_name=${ALB_GROUP_NAME} \
        --set global.cm.cert_id=${CM_CERT_ID} \
-       --atomic --install --timeout 10m --debug --namespace=${APP_INSTALL_ENVIRONMENT} --kubeconfig ~/.kube/config
+       --atomic --install --timeout 10m --debug --namespace=${APP_INSTALL_ENVIRONMENT} --kubeconfig ~/.kube/config --create-namespace
   after_script:
     - rm ${HOME}/.kube/config ||true
 
