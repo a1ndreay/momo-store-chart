@@ -1,30 +1,46 @@
 global:
   imageCredentials:
+    # Must be valid container registry URL: for instance, 'gitlab.praktikum-services.ru:5050'
     registry: ""
     username: ""
     password: ""
+    # (depricated) you can leave this field empty, it is not in use.
     port: ""
+  # (depricated) now the external load balancer is installed via a separate chart. (Nginx-Ingress controller used by default as LoadBalancer)
   alb:
     subnets:
     security_groups:
     external_ipv4_address:
     group_name:
   cm:
+    # let's encrypt certificate id from the certifiacte manager
     cert_id: 
   backend:
+    # change this default value
+    # registry. for example, gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
+    # Pay attention, that you must pass docker credentials to pull from it registry in block imageCredentials
     image: gitlab.praktikum-services.ru:5050/
+    # image tag, for default 'latest'
     version: 'latest'
     replicas: 1
+    # This port was used for capability with frontend and redirect to the nginx proxy: backend.namespace.svc:8081/api/request? => http://localhost:8080/request?
     containerPort: "8081"
+    # Default svc name backend.namespace.svc
     internal_svc_name: "backend"
+    # Please, do not edit this value, this ref to secret with docker credentials
     docker_secret_name: "secret-name"
   frontend:
+    # change this default value
+    # registry. for example, gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/backend
+    # Pay attention, that you must pass docker credentials to pull from it registry in block imageCredentials
     image: gitlab.praktikum-services.ru:5050/
     version: 'latest'
     replicas: 1
     containerPort: 8080
+    # Domain name
     fqdn: ""
     docker_secret_name: "secret-name"
+    # Do not edit this value
     vue_app_api_url: "/api" #must be http://<fqdn>:<frontend.containerPort>/api
     node_env: "production"
     permanent_redirect:
