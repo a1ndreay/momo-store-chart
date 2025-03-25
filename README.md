@@ -5,7 +5,7 @@
 
 ⚠️ Для выполнения некоторых действий нам потребуется утилита __kubectl__ и __helm__.
 
-1. Создайте Nexus-репозиторий https://nexus.praktikum-services.tech/ тип: helm hosted, Deployment policy: allow redeploy., он потребуется для хранения чартов. Не стоит волноваться, супер секьюрные значения не будут подставляться в чарт на этапе публикации в репозиторий. 
+1. Создайте Nexus-репозиторий https://nexus.***.tech/ тип: helm hosted, Deployment policy: allow redeploy., он потребуется для хранения чартов. Не стоит волноваться, супер секьюрные значения не будут подставляться в чарт на этапе публикации в репозиторий. 
 
 2. Чтобы наш CD пайпалайн мог взаимодействоать с кластером необходимо создать статический файл конфигурации [ref](https://yandex.cloud/ru/docs/managed-kubernetes/operations/connect/create-static-conf):
 ```bash
@@ -101,14 +101,14 @@ helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.extraArg
 3. После создания репозитория, нужно обязательно добавить в gitlab все следующие секреты:
 |Ключ|Значение|Пояснение|
 |--- |---     |---      |
-|"NEXUS_HELM_REPO"|"https://nexus.praktikum-services.tech/repository/<your-nexus-repo-name>/" | за место <your-nexus-repo-name> подставьте имя nexus-репозитория |
+|"NEXUS_HELM_REPO"|"https://nexus.***.tech/repository/<your-nexus-repo-name>/" | за место <your-nexus-repo-name> подставьте имя nexus-репозитория |
 |"NEXUS_HELM_REPO_USERNAME"||Ваш логин от nexus|
 |"NEXUS_HELM_REPO_PASSWORD"||Ваш пароль от nexus|
 |"KUBECONFIG_USER_TOKEN"||получите, используя `echo $SA_TOKEN `|
 |"KUBECONFIG_CONTEXT_NAMESPACE"|"default"||
 |"KUBECONFIG_CLUSTER_CONTROLPLANE_ADDRESS"|"https://<ALB_EXT_IPV4_ADDR>"| замените <ALB_EXT_IPV4_ADDR> на значение полученное при создании кластера |
 |"KUBECONFIG_CLUSTER_CERTIFICATE_AUTHORITY_DATA"|| получите, используя `base64 -w0 ~/.kube/ca.pem` обратите внимание, что корневой сертификат добавляется в кодировке base64 |
-|"DOCKER_REGISTRY_URL"|"gitlab.praktikum-services.ru:5050"|указание порта очень важно! |
+|"DOCKER_REGISTRY_URL"|"gitlab.***.ru:5050"|указание порта очень важно! |
 |"DOCKER_REGISTRY_USERNAME"||Ваш логин от Gitlab |
 |"DOCKER_REGISTRY_PASSWORD"||Ваш пароль от Gitlab|
 |"BACKEND_REGISTRY_URL"||Пока пропускаем, добавим на следующем этапе |
@@ -118,7 +118,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.extraArg
 
 > [!warning]
 > В качестве DOCKER_REGISTRY_USERNAME/DOCKER_REGISTRY_PASSWORD должны быть ваш логин и пароль от gitab'a (мы не будем использовать deploy токены и т.п.)
-> В качестве BACKEND_REGISTRY_URL/FRONTEND_REGISTRY_URL должна быть строка вида: "gitlab.praktikum-services.ru:5050/std-ext-011-46/momo-store/frontend"
+> В качестве BACKEND_REGISTRY_URL/FRONTEND_REGISTRY_URL должна быть строка вида: "gitlab.***.ru:5050/std-ext-011-46/momo-store/frontend"
 > Переменная APP_INSTALL_ENVIRONMENT указывает на имя неймспейса в котором установится чарт, может совпадать со значением KUBECONFIG_CONTEXT_NAMESPACE. Предпочтительнее указать разные значения, так как в чарте есть ресурсы, создаваемые с помощью хуков. Такие ресурсы не следуют за жизненным циклом основного чарта, в том числе не удаляются автоматически после его удаления.
 
 4. Загрузите текущий локальный репозиторий в gitlab.praktikum-services.ru. Сборка чарта начнётся автоматически. ❗ Не забегайте вперёд, не запускайте вручную шаг deploy в UI Gitlab'a.
@@ -139,12 +139,11 @@ helm install ingress-nginx ingress-nginx/ingress-nginx --set controller.extraArg
 > [!note]  
 > Перед установкой чарта установите необходимые утилиты: __helm__, __kubectl__
 
-1. Скачайте данный репозиторий: git clone  https://gitlab.praktikum-services.ru/std-ext-011-46/momo-store-chart.git
+1. Скачайте данный репозиторий: git clone  https://gitlab.***.ru/std-ext-011-46/momo-store-chart.git
 
 2. В кластере kubernetes необходимо самостоятельно создать ресурс ( тип Secret ) содержащий параметры подключения к вашему docker registry gitlab'a:
 Измените в файле __dockerconfigjson.yaml__ строку 'base64 encoded docker secret' на валидный конфиг для подключения к docker-registry (https://clck.ru/3H6XKi) закодированный в формате base64: 
-	1) декодируйте конфиг: 'ewoJImF1dGhzIjogewoJCSJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOnsKCQkJImF1dGgiOiAiUEd4dloybHVPbkJoYzNOM2IzSmtQZz09IgoJCX0KCX0KfQ==' 
-	2) декодируйте строку: 'PGxvZ2luOnBhc3N3b3JkPg==' 
+
 	3) замените её на ваши значения, закодируйте и подставьте обратно в конфиг 
 	4) закодируйте конфиг и подставьте получившуюся строку за  место 'base64 encoded docker secret' 
 	5) замените 'secret-name' на любое имя __и не забудьте__ его так же изменить в файле __values.yaml__: global.backend.docker_secret_name и global.frontend.docker_secret_name !
